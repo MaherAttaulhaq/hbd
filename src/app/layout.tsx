@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Montserrat, Playfair_Display } from "next/font/google";
+import { MusicProvider } from "@/components/MusicProvider";
+import IntroOverlay from "@/components/IntroOverlay";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -74,7 +76,10 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        {children}
+        <MusicProvider>
+          <IntroOverlay />
+          {children}
+        </MusicProvider>
       </body>
     </html>
   );

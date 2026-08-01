@@ -20,6 +20,11 @@ export const WISHES_IMAGE = {
   alt: "A treasured moment with Dr. Mansoor Ahmed",
 } as const;
 
+export const INTRO_IMAGE = {
+  src: "/images/296707726_1786033051747658_8124690693358526896_n.jpg",
+  alt: "A warm birthday portrait of Dr. Mansoor Ahmed",
+} as const;
+
 export const MUSIC = {
   src: "/audio/ishq-mashup.mp3",
 } as const;
