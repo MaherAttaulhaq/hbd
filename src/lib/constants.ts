@@ -19,3 +19,7 @@ export const WISHES_IMAGE = {
   src: "/images/wishes-photo.jpg",
   alt: "A treasured moment with Dr. Mansoor Ahmed",
 } as const;
+
+export const MUSIC = {
+  src: "/audio/ishq-mashup.mp3",
+} as const;

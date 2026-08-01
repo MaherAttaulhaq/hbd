@@ -36,6 +36,11 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local media source (too large to commit)
+/*.mkv
+/*.mp4
+/*.avi
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

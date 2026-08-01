@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { MUSIC } from "@/lib/constants";
 
 export default function MusicPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -12,24 +13,24 @@ export default function MusicPlayer() {
     if (!audio) return;
     const onError = () => setSupported(false);
     audio.addEventListener("error", onError);
+    audio.load();
     return () => audio.removeEventListener("error", onError);
   }, []);
 
-  useEffect(() => {
+  const toggle = useCallback(() => {
     const audio = audioRef.current;
     if (!audio) return;
     if (playing) {
-      void audio.play().catch(() => {
-        setPlaying(false);
-      });
-    } else {
       audio.pause();
+      setPlaying(false);
+    } else {
+      audio.volume = 0.6;
+      void audio
+        .play()
+        .then(() => setPlaying(true))
+        .catch(() => setPlaying(false));
     }
   }, [playing]);
-
-  const toggle = useCallback(() => {
-    setPlaying((prev) => !prev);
-  }, []);
 
   if (!supported) return null;
 
@@ -37,9 +38,10 @@ export default function MusicPlayer() {
     <div className="fixed bottom-5 right-5 z-50 flex items-center gap-3 sm:bottom-7 sm:right-7">
       <audio
         ref={audioRef}
-        src="/audio/birthday-loop.wav"
+        src={MUSIC.src}
         loop
-        preload="none"
+        preload="auto"
+        playsInline
       />
       <button
         type="button"
@@ -52,7 +54,7 @@ export default function MusicPlayer() {
       </button>
       <span
         aria-hidden
-        className="glass-card hidden items-center gap-1 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-200 sm:flex"
+        className="glass-card flex items-center gap-1 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-200"
       >
         {playing ? <Equalizer /> : null}
         {playing ? "Now playing" : "Music off"}
