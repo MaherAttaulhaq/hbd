@@ -2,9 +2,12 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { BIRTHDAY } from "@/lib/constants";
+import { useMounted } from "@/hooks/useMounted";
 
 export default function Closing() {
-  const reduceMotion = useReducedMotion();
+  const mounted = useMounted();
+  const reduced = useReducedMotion() ?? false;
+  const reduceMotion = mounted && reduced;
 
   return (
     <footer id="closing" className="relative overflow-hidden px-6 pb-16 pt-16 md:pt-24">

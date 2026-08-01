@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import SectionHeading from "./SectionHeading";
 import { celebrate } from "@/lib/celebrate";
+import { useMounted } from "@/hooks/useMounted";
 
 const FLAME_STYLE = {
   transformBox: "fill-box" as const,
@@ -10,7 +11,9 @@ const FLAME_STYLE = {
 };
 
 export default function Cake() {
-  const reduceMotion = useReducedMotion();
+  const mounted = useMounted();
+  const reduced = useReducedMotion() ?? false;
+  const reduceMotion = mounted && reduced;
 
   return (
     <section id="cake" className="relative px-6 py-24 md:py-32">

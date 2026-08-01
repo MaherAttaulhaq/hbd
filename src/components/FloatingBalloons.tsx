@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { useMemo } from "react";
+import { useMounted } from "@/hooks/useMounted";
 
 const BALLOON_COLORS = [
   "#d4af37",
@@ -56,6 +57,7 @@ function BalloonSvg({ size, color }: { size: number; color: string }) {
 }
 
 export default function FloatingBalloons({ count = 12 }: { count?: number }) {
+  const mounted = useMounted();
   const reduceMotion = useReducedMotion();
 
   const balloons = useMemo<BalloonConfig[]>(
@@ -71,7 +73,7 @@ export default function FloatingBalloons({ count = 12 }: { count?: number }) {
     [count],
   );
 
-  if (reduceMotion) return null;
+  if (!mounted || reduceMotion) return null;
 
   return (
     <div

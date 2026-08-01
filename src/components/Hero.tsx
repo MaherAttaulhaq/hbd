@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { BIRTHDAY, HERO_IMAGE } from "@/lib/constants";
 import { celebrate } from "@/lib/celebrate";
+import { useMounted } from "@/hooks/useMounted";
 
 const container = {
   hidden: {},
@@ -22,7 +23,9 @@ const item = {
 };
 
 export default function Hero() {
-  const reduceMotion = useReducedMotion();
+  const mounted = useMounted();
+  const reduced = useReducedMotion() ?? false;
+  const reduceMotion = mounted && reduced;
 
   const motionProps = reduceMotion
     ? { initial: false, animate: "show" }

@@ -6,9 +6,12 @@ import SectionHeading from "./SectionHeading";
 import GlassCard from "./GlassCard";
 import { wishes } from "@/lib/wishes";
 import { WISHES_IMAGE } from "@/lib/constants";
+import { useMounted } from "@/hooks/useMounted";
 
 export default function Wishes() {
-  const reduceMotion = useReducedMotion();
+  const mounted = useMounted();
+  const reduced = useReducedMotion() ?? false;
+  const reduceMotion = mounted && reduced;
 
   return (
     <section id="wishes" className="relative px-6 py-24 md:py-32">
