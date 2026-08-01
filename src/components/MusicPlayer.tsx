@@ -5,8 +5,22 @@ import { MUSIC } from "@/lib/constants";
 
 export default function MusicPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const startedRef = useRef(false);
   const [playing, setPlaying] = useState(false);
   const [supported, setSupported] = useState(true);
+
+  const start = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio || startedRef.current) return;
+    audio.volume = 0.6;
+    void audio
+      .play()
+      .then(() => {
+        startedRef.current = true;
+        setPlaying(true);
+      })
+      .catch(() => setPlaying(false));
+  }, []);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -14,8 +28,13 @@ export default function MusicPlayer() {
     const onError = () => setSupported(false);
     audio.addEventListener("error", onError);
     audio.load();
-    return () => audio.removeEventListener("error", onError);
-  }, []);
+    start();
+    document.addEventListener("pointerdown", start);
+    return () => {
+      audio.removeEventListener("error", onError);
+      document.removeEventListener("pointerdown", start);
+    };
+  }, [start]);
 
   const toggle = useCallback(() => {
     const audio = audioRef.current;
@@ -24,6 +43,7 @@ export default function MusicPlayer() {
       audio.pause();
       setPlaying(false);
     } else {
+      startedRef.current = true;
       audio.volume = 0.6;
       void audio
         .play()
